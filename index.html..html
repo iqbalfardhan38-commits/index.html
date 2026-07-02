@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ayam Bawang Putih — Ayam Goreng Bawang Putih</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --charcoal:#1B1714;
+    --charcoal-2:#241F1A;
+    --paper:#F4EEE2;
+    --paper-2:#EAE2D2;
+    --gold:#D7A52E;
+    --gold-soft:#E9C878;
+    --chili:#BD3B26;
+    --herb:#5B6B4D;
+    --ink:#241D17;
+    --ink-soft:#5C5248;
+    --line: rgba(36,29,23,0.14);
+    --line-light: rgba(244,238,226,0.18);
+    --radius: 2px;
+    --max: 1180px;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Plus Jakarta Sans', sans-serif;
+    font-weight:500;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img,svg{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;}
+
+  .wrap{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  .display{
+    font-family:'Anton', sans-serif;
+    font-weight:400;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    line-height:0.95;
+  }
+  .mono{
+    font-family:'Space Mono', monospace;
+  }
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+  }
+
+  :focus-visible{
+    outline:2px solid var(--gold);
+    outline-offset:3px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+    html{scroll-behavior:auto;}
+  }
+
+  .reveal{
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.is-visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  .site-header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:transparent;
+    transition:background 0.35s ease, padding 0.35s ease, border-color 0.35s ease;
+    border-bottom:1px solid transparent;
+  }
+  .site-header.is-scrolled{
+    background:rgba(27,23,20,0.94);
+    backdrop-filter: blur(6px);
+    border-bottom:1px solid var(--line-light);
+  }
+  .nav-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 0;
+    transition:padding 0.35s ease;
+  }
+  .site-header.is-scrolled .nav-row{ padding:14px 0; }
+
+  .logo{
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+    color:var(--paper);
+  }
+  .logo .display{ font-size:22px; letter-spacing:0.01em; }
+  .logo .mono{ font-size:10px; color:var(--gold-soft); letter-spacing:0.12em; }
+
+  .nav-links{
+    display:flex;
+    align-items:center;
+    gap:36px;
+  }
+  .nav-links a{
+    font-size:14px;
+    font-weight:600;
+    color:var(--paper);
+    opacity:0.82;
+    position:relative;
+    padding-bottom:4px;
+  }
+  .nav-links a:hover{ opacity:1; }
+  .nav-links a::after{
+    content:"";
+    position:absolute;
+    left:0; bottom:0;
+    width:0; height:1px;
+    background:var(--gold);
+    transition:width 0.25s ease;
+  }
+  .nav-links a:hover::after{ width:100%; }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:14px;
+    font-weight:700;
+    padding:12px 22px;
+    border-radius:var(--radius);
+    transition:transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    white-space:nowrap;
+  }
+  .btn-chili{
+    background:var(--chili);
+    color:var(--paper);
+  }
+  .btn-chili:hover{ transform:translateY(-2px); box-shadow:0 10px 24px -8px rgba(189,59,38,0.55); }
+  .btn-outline-light{
+    border:1.5px solid rgba(244,238,226,0.55);
+    color:var(--paper);
+  }
+  .btn-outline-light:hover{ border-color:var(--paper); background:rgba(244,238,226,0.08); }
+  .btn-outline-dark{
+    border:1.5px solid rgba(36,29,23,0.35);
+    color:var(--ink);
+  }
+  .btn-outline-dark:hover{ border-color:var(--ink); background:rgba(36,29,23,0.05); }
+  .btn-gold{
+    background:var(--gold);
+    color:var(--charcoal);
+  }
+  .btn-gold:hover{ transform:translateY(-2px); box-shadow:0 10px 24px -8px rgba(215,165,46,0.55); }
+
+  .nav-toggle{ display:none; }
+
+  .hero{
+    background:
+      radial-gradient(ellipse 70% 60% at 80% -10%, rgba(215,165,46,0.16), transparent 60%),
+      var(--charcoal);
+    color:var(--paper);
+    position:relative;
+    padding-top:64px;
+    overflow:hidden;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.05fr 0.95fr;
+    gap:40px;
+    align-items:center;
+    padding:64px 0 88px;
+  }
+  .hero-eyebrow{
+    color:var(--gold-soft);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:22px;
+  }
+  .hero-eyebrow::before{
+    content:"";
+    width:7px;height:7px;border-radius:50%;
+    background:var(--chili);
+    box-shadow:0 0 0 3px rgba(189,59,38,0.25);
+  }
+  .hero h1{
+    font-size:clamp(40px, 6vw, 74px);
+    color:var(--paper);
+  }
+  .hero h1 .stroke{
+    color:transparent;
+    -webkit-text-stroke:1.5px var(--gold);
+  }
+  .hero p.lede{
+    margin-top:22px;
+    max-width:460px;
+    font-size:17px;
+    color:rgba(244,238,226,0.78);
+    font-weight:500;
+  }
+  .hero-cta{
+    display:flex;
+    gap:14px;
+    margin-top:34px;
+    flex-wrap:wrap;
+  }
+  .hero-stats{
+    display:grid;
+    grid-template-columns:repeat(4,auto);
+    gap:28px;
+    margin-top:56px;
+    padding-top:26px;
+    border-top:1px solid var(--line-light);
+  }
+  .hero-stats .stat-num{
+    font-family:'Anton', sans-serif;
+    font-size:26px;
+    color:var(--gold-soft);
+  }
+  .hero-stats .stat-label{
+    font-size:11.5px;
+    color:rgba(244,238,226,0.6);
+    margin-top:4px;
+    letter-spacing:0.02em;
+  }
+
+  .hero-art{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100%;
+  }
+  .hero-art svg{ width:100%; max-width:420px; }
+  .stamp{
+    position:absolute;
+    top:6%;
+    right:2%;
+    width:108px;
+    height:108px;
+    border-radius:50%;
+    border:1.5px dashed rgba(215,165,46,0.7);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transform:rotate(-12deg);
+    animation:spin-slow 22s linear infinite;
+  }
+  @keyframes spin-slow{ to{ transform:rotate(348deg); } }
+  .stamp-inner{
+    font-family:'Space Mono', monospace;
+    font-size:9.5px;
+    letter-spacing:0.14em;
+    color:var(--gold-soft);
+    text-align:center;
+    line-height:1.6;
+  }
+
+  .trust{
+    background:var(--charcoal-2);
+    border-top:1px solid var(--line-light);
+  }
+
+  .section{ padding:96px 0; }
+  .section-light{ background:var(--paper); }
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:24px;
+    margin-bottom:56px;
+    flex-wrap:wrap;
+  }
+  .section-head .eyebrow{ color:var(--chili); margin-bottom:14px; display:block; }
+  .section-head h2{
+    font-size:clamp(28px,3.6vw,42px);
+    max-width:560px;
+  }
+  .section-head p{
+    max-width:340px;
+    color:var(--ink-soft);
+    font-size:15px;
+  }
+
+  .features{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .feature{
+    background:var(--paper);
+    padding:34px 28px;
+    transition:background 0.25s ease;
+  }
+  .feature:hover{ background:var(--paper-2); }
+  .feature .f-icon{
+    width:38px; height:38px;
+    margin-bottom:18px;
+  }
+  .feature h3{
+    font-size:16.5px;
+    font-weight:700;
+    margin-bottom:10px;
+  }
+  .feature p{
+    font-size:14px;
+    color:var(--ink-soft);
+  }
+
+  .menu-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:26px;
+  }
+  .ticket{
+    position:relative;
+    background:var(--paper);
+    border:1.5px dashed rgba(36,29,23,0.3);
+    padding:26px 24px 22px;
+    transition:transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  .ticket:hover{
+    transform:translateY(-4px);
+    border-color:var(--chili);
+    box-shadow:0 16px 34px -18px rgba(36,29,23,0.35);
+  }
+  .ticket::before,
+  .ticket::after{
+    content:"";
+    position:absolute;
+    width:18px;height:18px;
+    background:var(--paper-2);
+    border:1.5px dashed rgba(36,29,23,0.3);
+    border-radius:50%;
+    top:50%;
+    transform:translateY(-50%);
+  }
+  .ticket::before{ left:-10px; }
+  .ticket::after{ right:-10px; }
+  .ticket-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+    padding-bottom:16px;
+    border-bottom:1px dashed rgba(36,29,23,0.25);
+    margin-bottom:16px;
+  }
+  .ticket-no{ font-size:11px; color:var(--ink-soft); }
+  .ticket-tag{
+    font-size:10px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    background:rgba(91,107,77,0.14);
+    color:var(--herb);
+    padding:3px 8px;
+    border-radius:20px;
+  }
+  .ticket h3{
+    font-size:18px;
+    font-weight:800;
+    margin-bottom:6px;
+  }
+  .ticket p.desc{
+    font-size:13.5px;
+    color:var(--ink-soft);
+    margin-bottom:18px;
+    min-height:36px;
+  }
+  .ticket-foot{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+  }
+  .ticket-price{
+    font-size:20px;
+    font-weight:700;
+    color:var(--chili);
+  }
+  .ticket-price span{
+    font-size:11px;
+    color:var(--ink-soft);
+    font-weight:500;
+    margin-right:2px;
+  }
+
+  .menu-foot-note{
+    margin-top:30px;
+    font-size:13px;
+    color:var(--ink-soft);
+    text-align:center;
+  }
+
+  .steps{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:0;
+    position:relative;
+  }
+  .step{
+    position:relative;
+    padding:8px 28px 8px 0;
+  }
+  .step .step-no{
+    font-family:'Anton', sans-serif;
+    font-size:54px;
+    color:transparent;
+    -webkit-text-stroke:1.5px var(--gold);
+    line-height:1;
+    margin-bottom:18px;
+  }
+  .step h3{ font-size:17px; font-weight:800; margin-bottom:8px; }
+  .step p{ font-size:14px; color:var(--ink-soft); max-width:260px; }
+  .step:not(:last-child)::after{
+    content:"";
+    position:absolute;
+    top:30px;
+    right:0;
+    width:1px;
+    height:60%;
+    background:var(--line);
+  }
+
+  .testi-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+  }
+  .testi{
+    background:var(--charcoal-2);
+    color:var(--paper);
+    padding:28px;
+    border-radius:var(--radius);
+    border:1px solid var(--line-light);
+  }
+  .testi .stars{ color:var(--gold); font-size:13px; letter-spacing:2px; margin-bottom:16px; }
+  .testi p.quote{
+    font-size:14.5px;
+    color:rgba(244,238,226,0.85);
+    margin-bottom:20px;
+    min-height:72px;
+  }
+  .testi .who{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:13px;
+  }
+  .testi .avatar{
+    width:32px;height:32px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--gold),var(--chili));
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Space Mono',monospace;
+    font-size:12px;
+    color:var(--charcoal);
+    font-weight:700;
+  }
+  .testi .who .name{ font-weight:700; }
+  .testi .who .loc{ color:rgba(244,238,226,0.55); font-size:12px; }
+  .testi-section{ background:var(--charcoal); }
+
+  .cta-banner{
+    background:var(--chili);
+    color:var(--paper);
+    padding:70px 0;
+  }
+  .cta-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:24px;
+    flex-wrap:wrap;
+  }
+  .cta-row h2{
+    font-size:clamp(26px,4vw,40px);
+    max-width:520px;
+  }
+
+  footer{
+    background:var(--charcoal);
+    color:rgba(244,238,226,0.7);
+    padding:64px 0 28px;
+  }
+  .foot-grid{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr 1fr;
+    gap:40px;
+    padding-bottom:44px;
+    border-bottom:1px solid var(--line-light);
+  }
+  .foot-grid h4{
+    font-size:12px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--gold-soft);
+    margin-bottom:16px;
+  }
+  .foot-grid li{ margin-bottom:9px; font-size:14px; }
+  .foot-grid li a:hover{ color:var(--paper); }
+  .foot-logo{ color:var(--paper); margin-bottom:14px; }
+  .foot-logo .display{ font-size:22px; }
+  .foot-about{ font-size:13.5px; max-width:280px; color:rgba(244,238,226,0.55); }
+  .foot-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding-top:24px;
+    font-size:12.5px;
+    color:rgba(244,238,226,0.45);
+    flex-wrap:wrap;
+    gap:10px;
+  }
+
+  @media (max-width:980px){
+    .hero-grid{ grid-template-columns:1fr; }
+    .hero-art{ order:-1; max-width:300px; margin:0 auto; }
+    .features{ grid-template-columns:repeat(2,1fr); }
+    .menu-grid{ grid-template-columns:repeat(2,1fr); }
+    .steps{ grid-template-columns:1fr; gap:36px; }
+    .step:not(:last-child)::after{ display:none; }
+    .testi-grid{ grid-template-columns:1fr; }
+    .foot-grid{ grid-template-columns:1fr 1fr; gap:32px; }
+  }
+  @media (max-width:720px){
+    .wrap{ padding:0 20px; }
+    .nav-links{
+      position:fixed;
+      top:0; right:0;
+      height:100vh;
+      width:78%;
+      max-width:320px;
+      background:var(--charcoal);
+      flex-direction:column;
+      justify-content:center;
+      align-items:flex-start;
+      gap:26px;
+      padding:0 36px;
+      transform:translateX(100%);
+      transition:transform 0.35s ease;
+      border-left:1px solid var(--line-light);
+    }
+    .nav-links.is-open{ transform:translateX(0); }
+    .nav-links a{ font-size:18px; }
+    .nav-toggle{
+      display:flex;
+      flex-direction:column;
+      gap:5px;
+      width:26px;
+      z-index:200;
+    }
+    .nav-toggle span{ height:2px; background:var(--paper); border-radius:2px; transition:transform 0.25s ease, opacity 0.25s ease;}
+    .nav-cta-desktop{ display:none; }
+    .hero-stats{ grid-template-columns:repeat(2,auto); row-gap:20px; }
+    .features{ grid-template-columns:1fr; }
+    .menu-grid{ grid-template-columns:1fr; }
+    .section{ padding:64px 0; }
+    .foot-grid{ grid-template-columns:1fr; gap:28px; }
+    .cta-row{ flex-direction:column; align-items:flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="wrap nav-row">
+    <a href="#top" class="logo">
+      <span class="display">Ayam Bawang Putih</span>
+      <span class="mono">AYAM GORENG BAWANG PUTIH</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Buka menu navigasi" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav-links" id="navLinks">
+      <a href="#menu">Menu</a>
+      <a href="#keunggulan">Keunggulan</a>
+      <a href="#cara-pesan">Cara Pesan</a>
+      <a href="#testimoni">Testimoni</a>
+      <a href="https://wa.me/6285191944720" class="btn btn-chili nav-cta-desktop" target="_blank" rel="noopener">Pesan via WhatsApp</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="hero-eyebrow eyebrow">DIGORENG SETELAH KAMU PESAN</div>
+      <h1 class="display">
+        KRIUK DI LUAR,<br>
+        JUICY DI DALAM,<br>
+        <span class="stroke">BAWANGNYA NAMPOL.</span>
+      </h1>
+      <p class="lede">Ayam dimarinasi 4 jam dengan bawang putih segar yang dihaluskan sendiri, lalu digoreng dadakan begitu pesananmu masuk. Bukan ayam yang dihangatkan ulang.</p>
+      <div class="hero-cta">
+        <a href="https://wa.me/6285191944720" class="btn btn-chili" target="_blank" rel="noopener">Pesan Sekarang →</a>
+        <a href="#menu" class="btn btn-outline-light">Lihat Menu</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num mono">30+</div>
+          <div class="stat-label">porsi terjual / hari</div>
+        </div>
+        <div>
+          <div class="stat-num mono">4.8</div>
+          <div class="stat-label">rating pelanggan</div>
+        </div>
+        <div>
+          <div class="stat-num mono">30’</div>
+          <div class="stat-label">rata-rata antar</div>
+        </div>
+        <div>
+          <div class="stat-num mono">100%</div>
+          <div class="stat-label">halal &amp; higienis</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-art">
+      <div class="stamp">
+        <div class="stamp-inner mono">ASLI<br>BAWANG<br>PUTIH</div>
+      </div>
+      <svg viewBox="0 0 360 360" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustrasi ayam goreng bawang putih dan bawang putih">
+        <circle cx="180" cy="190" r="150" fill="#241F1A"/>
+        <g stroke="#D7A52E" stroke-width="1.2" opacity="0.55">
+          <path d="M150 70 C146 50 156 40 150 22" stroke-linecap="round"/>
+          <path d="M180 64 C176 44 186 34 180 16" stroke-linecap="round"/>
+          <path d="M210 70 C206 50 216 40 210 22" stroke-linecap="round"/>
+        </g>
+        <path d="M150 150 C120 150 100 180 110 220 C118 252 150 280 190 282 C236 284 268 252 264 212 C260 176 232 156 200 152 C188 150.5 162 148 150 150 Z" fill="#E9C878"/>
+        <path d="M150 150 C120 150 100 180 110 220 C118 252 150 280 190 282 C236 284 268 252 264 212 C260 176 232 156 200 152 C188 150.5 162 148 150 150 Z" fill="none" stroke="#1B1714" stroke-width="3"/>
+        <path d="M118 196 L100 214 M126 224 L106 238 M150 244 L134 264 M182 254 L172 276 M218 248 L226 270 M240 224 L256 236" stroke="#1B1714" stroke-width="2.4" stroke-linecap="round" opacity="0.45"/>
+        <path d="M214 150 C228 140 226 110 198 96 C212 92 222 70 200 56 C212 60 232 56 232 36" fill="none" stroke="#D7A52E" stroke-width="6" stroke-linecap="round"/>
+        <g transform="translate(252 168)">
+          <path d="M0 30 C-16 30 -26 16 -22 0 C-20 -10 -10 -16 0 -16 C10 -16 20 -10 22 0 C26 16 16 30 0 30 Z" fill="#F4EEE2"/>
+          <path d="M0 -16 L0 -30" stroke="#F4EEE2" stroke-width="4" stroke-linecap="round"/>
+          <path d="M-10 6 C-10 18 -2 24 0 24 C2 24 10 18 10 6 C10 -2 4 -10 0 -10 C-4 -10 -10 -2 -10 6 Z" fill="none" stroke="#1B1714" stroke-width="1.5" opacity="0.5"/>
+        </g>
+        <g transform="translate(238 196)">
+          <path d="M0 24 C-13 24 -21 13 -18 0 C-16 -8 -8 -13 0 -13 C8 -13 16 -8 18 0 C21 13 13 24 0 24 Z" fill="#F4EEE2"/>
+          <path d="M0 -13 L0 -24" stroke="#F4EEE2" stroke-width="3" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<div class="trust">
+  <div class="wrap" style="padding:18px 32px; display:flex; gap:36px; flex-wrap:wrap; justify-content:center; color:rgba(244,238,226,0.65); font-size:12.5px;">
+    <span class="mono">✓ HALAL</span>
+    <span class="mono">✓ TANPA PENGAWET</span>
+    <span class="mono">✓ DIGORENG DADAKAN</span>
+    <span class="mono">✓ BUKA 10.00–21.00 WIB</span>
+  </div>
+</div>
+
+<section class="section section-light" id="keunggulan">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <span class="eyebrow">KENAPA BAWANG KRIUK</span>
+        <h2>Bukan cuma ayam goreng. Ini standar dapur yang kami pegang setiap hari.</h2>
+      </div>
+      <p>Empat hal yang kami jaga supaya setiap porsi yang sampai ke tanganmu konsisten enaknya.</p>
+    </div>
+
+    <div class="features reveal">
+      <div class="feature">
+        <svg class="f-icon" viewBox="0 0 38 38" fill="none"><circle cx="19" cy="19" r="17" stroke="#BD3B26" stroke-width="2"/><path d="M19 10 L19 19 L25 23" stroke="#BD3B26" stroke-width="2" stroke-linecap="round"/></svg>
+        <h3>Digoreng dadakan</h3>
+        <p>Ayam baru turun wajan setelah pesananmu kami terima, jadi yang kamu makan tetap kriuk, bukan hasil hangatkan ulang.</p>
+      </div>
+      <div class="feature">
+        <svg class="f-icon" viewBox="0 0 38 38" fill="none"><path d="M19 6 C13 6 10 12 11 18 C12 24 16 28 19 32 C22 28 26 24 27 18 C28 12 25 6 19 6Z" stroke="#BD3B26" stroke-width="2"/></svg>
+        <h3>Bawang putih asli</h3>
+        <p>Dihaluskan dari bawang putih segar, bukan bubuk instan, lalu dipakai marinasi minimal 4 jam sebelum digoreng.</p>
+      </div>
+      <div class="feature">
+        <svg class="f-icon" viewBox="0 0 38 38" fill="none"><path d="M19 5 L33 11 L33 19 C33 27 27 32 19 34 C11 32 5 27 5 19 L5 11 Z" stroke="#BD3B26" stroke-width="2"/><path d="M13 19 L18 24 L26 14" stroke="#BD3B26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h3>Bersertifikat halal</h3>
+        <p>Diolah di dapur dengan bahan dan proses yang terjaga kebersihannya, sesuai standar halal yang berlaku.</p>
+      </div>
+      <div class="feature">
+        <svg class="f-icon" viewBox="0 0 38 38" fill="none"><path d="M6 14 L24 14 L24 26 L6 26 Z" stroke="#BD3B26" stroke-width="2"/><path d="M24 18 L32 18 L32 26 L24 26" stroke="#BD3B26" stroke-width="2"/><circle cx="11" cy="29" r="2.4" stroke="#BD3B26" stroke-width="2"/><circle cx="27" cy="29" r="2.4" stroke="#BD3B26" stroke-width="2"/></svg>
+        <h3>Antar dalam 30 menit</h3>
+        <p>Radius 5 km dari dapur kami, gratis ongkos kirim untuk pesanan di atas Rp50.000.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-light" id="menu" style="background:var(--paper-2);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <span class="eyebrow">DAFTAR MENU</span>
+        <h2>Setiap porsi dicetak seperti struk, harganya pun jelas dari awal.</h2>
+      </div>
+      <p>Semua harga sudah termasuk sambal bawang khas kami. Tinggal pilih, lalu kirim pesanan via WhatsApp.</p>
+    </div>
+
+    <div class="menu-grid reveal">
+      <div class="ticket">
+        <div class="ticket-top">
+          <span class="ticket-no mono">NO. 01</span>
+          <span class="ticket-tag">FAVORIT</span>
+        </div>
+        <h3>Paha Atas Bawang Kriuk</h3>
+        <p class="desc">Potongan paha atas, kulit kriuk, daging tetap juicy.</p>
+        <div class="ticket-foot">
+          <div class="ticket-price mono"><span>Rp</span>18.000</div>
+        </div>
+      </div>
+
+      <div class="ticket">
+        <div class="ticket-top">
+          <span class="ticket-no mono">NO. 02</span>
+          <span class="ticket-tag">HEMAT</span>
+        </div>
+        <h3>Paha Bawah Bawang Kriuk</h3>
+        <p class="desc">Porsi pas, cocok buat yang baru kenalan dengan kami.</p>
+        <div class="ticket-foot">
+          <div class="ticket-price mono"><span>Rp</span>16.000</div>
+        </div>
+      </div>
+
+      <div class="ticket">
+        <div class="ticket-top">
+          <span class="ticket-no mono">NO. 03</span>
+          <span class="ticket-tag">RENDAH LEMAK</span>
+        </div>
+        <h3>Dada Bawang Kriuk</h3>
+        <p class="desc">Daging dada tebal, tetap empuk meski rendah lemak.</p>
+        <div class="ticket-foot">
+          <div class="ticket-price mono"><span>Rp</span>17.000</div>
+        </div>
+      </div>
+
+      <div class="ticket">
+        <div class="ticket-top">
+          <span class="ticket-no mono">NO. 04</span>
+          <span class="ticket-tag">2 PCS</span>
+        </div>
+        <h3>Sayap Bawang Kriuk</h3>
+        <p class="desc">Dua potong sayap, renyah sampai ke ujung tulang.</p>
+        <div class="ticket-foot">
+          <div class="ticket-price mono"><span>Rp</span>15.000</div>
+        </div>
+      </div>
+
+      <div class="ticket">
+        <div class="ticket-top">
+          <span class="ticket-no mono">NO. 05</span>
+          <span class="ticket-tag">PAKET LENGKAP</span>
+        </div>
+        <h3>Paket Nasi + Ayam + Lalapan</h3>
+        <p class="desc">Nasi hangat, ayam pilihan, sambal bawang, dan lalapan segar.</p>
+        <div class="ticket-foot">
+          <div class="ticket-price mono"><span>Rp</span>25.000</div>
+        </div>
+      </div>
+
+
+    <p class="menu-foot-note reveal">Mau tambah sambal bawang (Rp5.000) atau es teh manis (Rp5.000)? Sebutkan saja saat memesan.</p>
+  </div>
+</section>
+
+<section class="section section-light" id="cara-pesan">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <span class="eyebrow">CARA PESAN</span>
+        <h2>Tiga langkah, ayam panas sampai di depan pintu.</h2>
+      </div>
+    </div>
+
+    <div class="steps reveal">
+      <div class="step">
+        <div class="step-no mono">01</div>
+        <h3>Pilih menu</h3>
+        <p>Tentukan potongan ayam dan paket favoritmu dari daftar menu di atas.</p>
+      </div>
+      <div class="step">
+        <div class="step-no mono">02</div>
+        <h3>Chat WhatsApp</h3>
+        <p>Kirim pesananmu lewat WhatsApp, kami konfirmasi dan kirim total bayar dalam 5 menit.</p>
+      </div>
+      <div class="step">
+        <div class="step-no mono">03</div>
+        <h3>Bayar &amp; tunggu kriuknya</h3>
+        <p>Transfer atau bayar di tempat, ayam diantar hangat dalam 30 menit.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section testi-section" id="testimoni">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <span class="eyebrow" style="color:var(--gold-soft);">KATA PELANGGAN</span>
+        <h2 style="color:var(--paper);">Bukan kami yang bilang enak, mereka yang sudah coba.</h2>
+      </div>
+    </div>
+
+    <div class="testi-grid reveal">
+      <div class="testi">
+        <div class="stars">★★★★★</div>
+        <p class="quote">Bawangnya kerasa banget, nggak kayak ayam goreng biasa yang cuma manis. Kriuknya juga tahan lama walau dimakan 1 jam kemudian.</p>
+        <div class="who">
+          <div class="avatar">DR</div>
+          <div>
+            <div class="name">Dina R.</div>
+            <div class="loc">Pelanggan tetap, Medan</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi">
+        <div class="stars">★★★★★</div>
+        <p class="quote">Order buat acara kantor, datangnya cepat dan masih hangat. Ayam utuhnya pas banget buat dibagi 8 orang.</p>
+        <div class="who">
+          <div class="avatar">BS</div>
+          <div>
+            <div class="name">Bayu S.</div>
+            <div class="loc">Pemesan acara kantor</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi">
+        <div class="stars">★★★★★</div>
+        <p class="quote">Sambal bawangnya juara, sampai nambah dua kali. Sekarang langganan tiap minggu buat makan malam keluarga.</p>
+        <div class="who">
+          <div class="avatar">RA</div>
+          <div>
+            <div class="name">Rani A.</div>
+            <div class="loc">Pelanggan tetap, Medan</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-banner">
+  <div class="wrap cta-row reveal">
+    <h2 class="display">LAPAR? BAWANGNYA UDAH NUNGGUIN.</h2>
+    <a href="https://wa.me/6285191944720" class="btn btn-gold" target="_blank" rel="noopener">Pesan via WhatsApp →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-logo logo">
+          <span class="display">Bawang Kriuk</span>
+        </div>
+        <p class="foot-about">Ayam goreng bawang putih yang digoreng dadakan setiap pesanan masuk. Berdiri sejak 2026, melayani Siantar dan sekitarnya.</p>
+      </div>
+      <div>
+        <h4>Menu</h4>
+        <ul>
+          <li><a href="#menu">Ayam potongan</a></li>
+          <li><a href="#menu">Paket nasi</a></li>
+          <li><a href="#menu">Ayam utuh</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Tautan</h4>
+        <ul>
+          <li><a href="#keunggulan">Keunggulan</a></li>
+          <li><a href="#cara-pesan">Cara pesan</a></li>
+          <li><a href="#testimoni">Testimoni</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Kontak</h4>
+        <ul>
+          <li><a href="https://wa.me/6285191944720" target="_blank" rel="noopener">0851-9194-4720</a></li>
+          <li>Jl. Bersama.P.Siantar.</li>
+          <li>Buka 10.00–21.00 WIB</li>
+          <li><a href="#" target="_blank" rel="noopener">@AyamBawangPutih</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Bawang Kriuk. Semua hak dilindungi.</span>
+      <span class="mono">DIGORENG DENGAN BAWANG PUTIH ASLI</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const header = document.getElementById('siteHeader');
+  const onScroll = () => {
+    if (window.scrollY > 24) header.classList.add('is-scrolled');
+    else header.classList.remove('is-scrolled');
+  };
+  document.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('is-open');
+    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      navLinks.classList.remove('is-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+</script>
+</body>
+</html>
+	
